@@ -14,4 +14,10 @@
     <p>
         {{ $curso->description }}
     </p>
+
+    <form action="{{ route('cursos.destroy', $curso) }}" method="POST">
+        @csrf
+        @method('delete')
+        <button type="submit">Eliminar Curso</button>
+    </form>
 @endsection

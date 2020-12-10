@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 //Controllers
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CursoController;
+use App\Mail\ContactanosMailable;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,19 +17,22 @@ use App\Http\Controllers\CursoController;
 |
 */
 
-Route::get('/', HomeController::class);
+Route::get('/', HomeController::class)->name('home');
 
-Route::get('cursos', [CursoController::class, 'index'])->name('cursos.index');
+Route::resource('cursos', CursoController::class);
 
-Route::get('cursos/create', [CursoController::class, 'create'])->name('cursos.create');
+Route::view('nosotros', 'nosotros')->name('nosotros');
 
-Route::post('cursos',  [CursoController::class, 'store'])->name('cursos.store');
+Route::get('contactanos', function () {
+    $correo = new ContactanosMailable;
+    Mail::to('stiwar.asprilla1998@gmail.com')->send($correo);
+    return ' Mensaje enviado';
+});
+// Si se quiere cambiar la URL en este caso por "Asignaturas".
+// en este caso parameters se usa para evitar que "asignaturas" no sea el nombre de esas variables y evitar cambiarlas en cada archivo.
+// el parametro "names" se usa para evitar que los metodos del controlador cambien. 
 
-Route::get('cursos/{curso}/edit', [CursoController::class, 'edit'])->name('cursos.edit');
-
-Route::get('cursos/{curso}', [CursoController::class, 'show'])->name('cursos.show');
-
-Route::put('cursos/{curso}',[CursoController::class, 'update'])->name('cursos.update');
+// Route::resource('asignaturas', CursoController::class)->parameters(['asignaturas' => 'curso'])->names('cursos');
 
 // Tener en cuenta el orden cuando las rutas lleven variables y cuando no para que sean leidas correctamente
 // Al poner el Signo "?" en la variable de la ruta indica que ese valor es opcional
