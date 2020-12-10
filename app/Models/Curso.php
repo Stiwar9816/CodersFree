@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Curso extends Model
 {
     use HasFactory;
-
+    
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
     // protected $fillable = ['name', 'description', 'category'];
     protected $guarded = ['status']; // OR []
 }

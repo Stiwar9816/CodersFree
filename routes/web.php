@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 //Controllers
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CursoController;
-use App\Mail\ContactanosMailable;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\ContactanosController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,11 +23,9 @@ Route::resource('cursos', CursoController::class);
 
 Route::view('nosotros', 'nosotros')->name('nosotros');
 
-Route::get('contactanos', function () {
-    $correo = new ContactanosMailable;
-    Mail::to('stiwar.asprilla1998@gmail.com')->send($correo);
-    return ' Mensaje enviado';
-});
+Route::get('contactanos', [ContactanosController::class, 'index'])->name('contactanos.index');
+
+Route::post('contactanos', [ContactanosController::class, 'store'])->name('contactanos.store');
 // Si se quiere cambiar la URL en este caso por "Asignaturas".
 // en este caso parameters se usa para evitar que "asignaturas" no sea el nombre de esas variables y evitar cambiarlas en cada archivo.
 // el parametro "names" se usa para evitar que los metodos del controlador cambien. 
@@ -47,3 +45,6 @@ Route::get('contactanos', function () {
 //     }
     
 // });
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

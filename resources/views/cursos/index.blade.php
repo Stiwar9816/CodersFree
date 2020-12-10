@@ -8,7 +8,7 @@
     <ul>
         @foreach ($cursos as $curso)
             <li>
-                <a href="{{ route('cursos.show',$curso->id) }}">
+                <a href="{{ route('cursos.show',$curso) }}">
                     {{ $curso->name }} - {{ $curso->category }}
                 </a>
                 <p>
